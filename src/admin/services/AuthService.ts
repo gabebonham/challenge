@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../../prisma/generated/client';
 import { User } from '../models/UserModel';
 const prisma = new PrismaClient();
 export async function authenticate(user) {
