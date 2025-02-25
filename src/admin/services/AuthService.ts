@@ -20,11 +20,16 @@ export async function authorize(req, res, next) {
 		return next();
 	}
 	if (!token) return res.sendStatus(401);
+	if (!getUser(token)) return res.sendStatus(401);
 
 	return next();
 }
 async function getUser(id: string) {
-	return prisma.users.findUnique({ where: { id: parseInt(id) } });
+	try {
+		return prisma.users.findUnique({ where: { id: parseInt(id) } });
+	} catch {
+		return undefined;
+	}
 }
 export async function registerUser(user: User) {
 	return await prisma.users.create({
