@@ -3,7 +3,7 @@ import { User } from '../models/UserModel';
 const prisma = new PrismaClient();
 export async function authenticate(user) {
 	console.log(user);
-	return user ? user : null;
+	return user ? user : { status: 401 };
 }
 export async function authorize(req, res, next) {
 	let token;
@@ -34,7 +34,14 @@ async function getUser(id: string) {
 	}
 }
 export async function registerUser(user: User) {
-	return await prisma.users.create({
-		data: { password: user.password, username: user.username },
-	});
+	try {
+		return await prisma.users.create({
+			data: {
+				password: user.password,
+				username: user.username,
+			},
+		});
+	} catch (e) {
+		return { status: 500 };
+	}
 }

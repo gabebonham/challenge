@@ -35,8 +35,7 @@ app.post('/api/posts', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-	const { username } = await req.body;
-	username != '' ? res.sendStatus(200) : res.sendStatus(401);
+	res.json(await authenticate(await req.body));
 });
 
 app.post('/api/register', async (req, res) => {

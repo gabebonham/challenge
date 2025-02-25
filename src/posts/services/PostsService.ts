@@ -6,20 +6,40 @@ export async function getPosts() {
 }
 
 export async function getPostById(id: string) {
-	return await prisma.posts.findUnique({ where: { id: parseInt(id) } });
+	try {
+		return await prisma.posts.findUnique({
+			where: { id: parseInt(id) },
+		});
+	} catch (e) {
+		return { status: 500 };
+	}
 }
 
 export async function createPost(post: Post) {
-	return await prisma.posts.create({
-		data: { title: post.title, content: post.content },
-	});
+	try {
+		return await prisma.posts.create({
+			data: { title: post.title, content: post.content },
+		});
+	} catch (e) {
+		return { status: 500 };
+	}
 }
 export async function updatePost(post: Post) {
-	return await prisma.posts.update({
-		where: { id: post.id },
-		data: { content: post.content, title: post.title },
-	});
+	try {
+		return await prisma.posts.update({
+			where: { id: post.id },
+			data: { content: post.content, title: post.title },
+		});
+	} catch (e) {
+		return { status: 500 };
+	}
 }
 export async function deletePost(id: string) {
-	return await prisma.posts.delete({ where: { id: parseInt(id) } });
+	try {
+		return await prisma.posts.delete({
+			where: { id: parseInt(id) },
+		});
+	} catch (e) {
+		return { status: 500 };
+	}
 }
