@@ -20,7 +20,7 @@ export async function authorize(req, res, next) {
 		return next();
 	}
 	if (!token) return res.sendStatus(401);
-	if (!getUser(token)) return res.sendStatus(401);
+	if (!(await getUser(token))) return res.sendStatus(401);
 
 	return next();
 }
