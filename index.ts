@@ -42,7 +42,9 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/register', async (req, res) => {
 	res.json(await registerUser(await req.body));
 });
-
+app.get('/', async (req, res) => {
+	res.sendStatus(401);
+});
 app.listen(port, () => {
 	return console.log(`Express is listening at http://localhost:${port}`);
 });
