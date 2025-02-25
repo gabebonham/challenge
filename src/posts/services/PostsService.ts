@@ -10,19 +10,16 @@ export async function getPostById(id: string) {
 }
 
 export async function createPost(post: Post) {
-	await prisma.posts.create({
+	return await prisma.posts.create({
 		data: { title: post.title, content: post.content },
 	});
-	return;
 }
 export async function updatePost(post: Post) {
-	await prisma.posts.update({
+	return await prisma.posts.update({
 		where: { id: post.id },
 		data: { content: post.content, title: post.title },
 	});
-	return { status: 200 };
 }
 export async function deletePost(id: string) {
-	await prisma.posts.delete({ where: { id: parseInt(id) } });
-	return { status: 200 };
+	return await prisma.posts.delete({ where: { id: parseInt(id) } });
 }

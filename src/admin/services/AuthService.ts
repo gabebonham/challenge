@@ -27,9 +27,7 @@ async function getUser(id: string) {
 	return prisma.users.findUnique({ where: { id: parseInt(id) } });
 }
 export async function registerUser(user: User) {
-	console.log(user);
-	await prisma.users.create({
+	return await prisma.users.create({
 		data: { password: user.password, username: user.username },
 	});
-	return;
 }
