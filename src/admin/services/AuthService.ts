@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { User } from '../models/UserModel';
 const prisma = new PrismaClient();
-export async function authenticate(user) {
+export async function authenticate(user: User) {
 	console.log(user);
-	return user ? user : { status: 401 };
+	return user ? (await getUserByUsername(user)).id : { status: 401 };
 }
 export async function authorize(req, res, next) {
 	let token;
@@ -20,14 +20,23 @@ export async function authorize(req, res, next) {
 		return next();
 	}
 	if (!token) return res.sendStatus(401);
-	if (!(await getUser(token))) return res.sendStatus(401);
+	if (!(await getUserById(token))) return res.sendStatus(401);
 
 	return next();
 }
-async function getUser(id: string) {
+async function getUserById(id: string) {
 	try {
 		return await prisma.users.findUnique({
 			where: { id: parseInt(id) },
+		});
+	} catch (e) {
+		return undefined;
+	}
+}
+async function getUserByUsername(user: User) {
+	try {
+		return await prisma.users.findUnique({
+			where: { username: user.username },
 		});
 	} catch (e) {
 		return undefined;
