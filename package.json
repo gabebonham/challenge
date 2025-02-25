@@ -1,10 +1,10 @@
 {
 	"name": "challenge",
 	"version": "1.0.0",
-	"main": "public/app.js",
+	"main": "api/index.js",
 	"scripts": {
 		"build": "npx tsc --build",
-		"start": "node public/app.js",
+		"start": "node api/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
