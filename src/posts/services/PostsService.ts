@@ -1,19 +1,28 @@
+import { PrismaClient } from '@prisma/client';
 import { Post } from '../models/PostModel';
-
-export function getPosts() {
-	return;
+const prisma = new PrismaClient();
+export async function getPosts() {
+	return await prisma.posts.findMany();
 }
 
-export function getPostById(id: number) {
-	return;
+export async function getPostById(id: string) {
+	return await prisma.posts.findUnique({ where: { id: parseInt(id) } });
 }
 
-export function createPost(post: Post) {
+export async function createPost(post: Post) {
+	await prisma.posts.create({
+		data: { title: post.title, content: post.content },
+	});
 	return;
 }
-export function updatePost(id: number) {
-	return;
+export async function updatePost(post: Post) {
+	await prisma.posts.update({
+		where: { id: post.id },
+		data: { content: post.content, title: post.title },
+	});
+	return { status: 200 };
 }
-export function deletePost(id: number) {
-	return;
+export async function deletePost(id: string) {
+	await prisma.posts.delete({ where: { id: parseInt(id) } });
+	return { status: 200 };
 }

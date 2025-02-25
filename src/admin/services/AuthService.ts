@@ -1,14 +1,35 @@
+import { PrismaClient } from '@prisma/client';
 import { User } from '../models/UserModel';
+const prisma = new PrismaClient();
+export async function authenticate(user) {
+	console.log(user);
+	return user ? user : null;
+}
+export async function authorize(req, res, next) {
+	let token;
+	try {
+		token = await req.headers['authorization'];
+	} catch (e) {
+		console.log(e);
+	}
 
-export function authenticate(user: User) {
-	return user;
+	if (
+		(await req.originalUrl) == '/api/login' ||
+		(await req.originalUrl) == '/api/register'
+	) {
+		return next();
+	}
+	if (!token) return res.send(401);
+
+	return next();
 }
-export function authorize(user: User) {
-	return true;
+async function getUser(id: string) {
+	return prisma.users.findUnique({ where: { id: parseInt(id) } });
 }
-export function getUser() {
-	return;
-}
-export function registerUser(user: User) {
+export async function registerUser(user: User) {
+	console.log(user);
+	await prisma.users.create({
+		data: { password: user.password, username: user.username },
+	});
 	return;
 }
