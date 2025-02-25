@@ -22,7 +22,13 @@ function authenticate(user) {
 }
 function authorize(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const token = yield req.headers['authorization'];
+        let token;
+        try {
+            token = yield req.headers['authorization'];
+        }
+        catch (e) {
+            console.log(e);
+        }
         if ((yield req.originalUrl) == '/api/login' ||
             (yield req.originalUrl) == '/api/register') {
             return next();
