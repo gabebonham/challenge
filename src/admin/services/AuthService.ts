@@ -26,8 +26,10 @@ export async function authorize(req, res, next) {
 }
 async function getUser(id: string) {
 	try {
-		return prisma.users.findUnique({ where: { id: parseInt(id) } });
-	} catch {
+		return await prisma.users.findUnique({
+			where: { id: parseInt(id) },
+		});
+	} catch (e) {
 		return undefined;
 	}
 }

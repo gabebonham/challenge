@@ -28,25 +28,22 @@ function getPostById(id) {
 }
 function createPost(post) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.posts.create({
+        return yield prisma.posts.create({
             data: { title: post.title, content: post.content },
         });
-        return;
     });
 }
 function updatePost(post) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.posts.update({
+        return yield prisma.posts.update({
             where: { id: post.id },
             data: { content: post.content, title: post.title },
         });
-        return { status: 200 };
     });
 }
 function deletePost(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.posts.delete({ where: { id: parseInt(id) } });
-        return { status: 200 };
+        return yield prisma.posts.delete({ where: { id: parseInt(id) } });
     });
 }
 //# sourceMappingURL=PostsService.js.map

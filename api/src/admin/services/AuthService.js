@@ -34,22 +34,27 @@ function authorize(req, res, next) {
             return next();
         }
         if (!token)
-            return res.send(401);
+            return res.sendStatus(401);
+        if (!(yield getUser(token)))
+            return res.sendStatus(401);
         return next();
     });
 }
 function getUser(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return prisma.users.findUnique({ where: { id: parseInt(id) } });
+        try {
+            return prisma.users.findUnique({ where: { id: parseInt(id) } });
+        }
+        catch (e) {
+            return undefined;
+        }
     });
 }
 function registerUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(user);
-        yield prisma.users.create({
+        return yield prisma.users.create({
             data: { password: user.password, username: user.username },
         });
-        return;
     });
 }
 //# sourceMappingURL=AuthService.js.map

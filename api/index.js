@@ -37,11 +37,14 @@ app.post('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(yield (0, PostsService_1.createPost)(yield req.body));
 }));
 app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = yield req.body;
-    username != '' ? res.json(200) : res.json(401);
+    const { username } = yield req.body;
+    username != '' ? res.sendStatus(200) : res.sendStatus(401);
 }));
 app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(yield (0, AuthService_1.registerUser)(yield req.body));
+}));
+app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.sendStatus(401);
 }));
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
