@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import {
 	createPost,
 	deletePost,
@@ -13,9 +14,18 @@ import {
 } from './src/admin/services/AuthService';
 
 const app = express();
-const port = 3000;
+const port = 3030;
 app.use(express.json());
+app.use(
+	cors({
+		origin: 'http://localhost:3000', // Replace with your frontend's URL
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+		allowedHeaders: ['Content-Type', 'Authorization'],
+		credentials: true,
+	}),
+);
 app.use(authorize);
+
 app.get('/api/posts', async (req, res) => {
 	res.json(await getPosts());
 });

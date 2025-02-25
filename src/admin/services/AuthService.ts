@@ -8,7 +8,7 @@ export async function authenticate(user: User) {
 export async function authorize(req, res, next) {
 	let token;
 	try {
-		token = await req.headers['authorization'];
+		token = await req.headers.authorization;
 	} catch (e) {
 		console.log(e);
 	}

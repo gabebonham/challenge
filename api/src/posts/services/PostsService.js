@@ -23,27 +23,51 @@ function getPosts() {
 }
 function getPostById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.posts.findUnique({ where: { id: parseInt(id) } });
+        try {
+            return yield prisma.posts.findUnique({
+                where: { id: parseInt(id) },
+            });
+        }
+        catch (e) {
+            return { status: 500 };
+        }
     });
 }
 function createPost(post) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.posts.create({
-            data: { title: post.title, content: post.content },
-        });
+        try {
+            return yield prisma.posts.create({
+                data: { title: post.title, content: post.content },
+            });
+        }
+        catch (e) {
+            return { status: 500 };
+        }
     });
 }
 function updatePost(post) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.posts.update({
-            where: { id: post.id },
-            data: { content: post.content, title: post.title },
-        });
+        try {
+            return yield prisma.posts.update({
+                where: { id: post.id },
+                data: { content: post.content, title: post.title },
+            });
+        }
+        catch (e) {
+            return { status: 500 };
+        }
     });
 }
 function deletePost(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.posts.delete({ where: { id: parseInt(id) } });
+        try {
+            return yield prisma.posts.delete({
+                where: { id: parseInt(id) },
+            });
+        }
+        catch (e) {
+            return { status: 500 };
+        }
     });
 }
 //# sourceMappingURL=PostsService.js.map

@@ -13,11 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const PostsService_1 = require("./src/posts/services/PostsService");
 const AuthService_1 = require("./src/admin/services/AuthService");
 const app = (0, express_1.default)();
-const port = 3000;
+const port = 3030;
 app.use(express_1.default.json());
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:3000', // Replace with your frontend's URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+}));
 app.use(AuthService_1.authorize);
 app.get('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(yield (0, PostsService_1.getPosts)());
@@ -37,8 +44,7 @@ app.post('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(yield (0, PostsService_1.createPost)(yield req.body));
 }));
 app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = yield req.body;
-    username != '' ? res.sendStatus(200) : res.sendStatus(401);
+    res.json(yield (0, AuthService_1.authenticate)(yield req.body));
 }));
 app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(yield (0, AuthService_1.registerUser)(yield req.body));

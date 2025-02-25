@@ -17,14 +17,14 @@ const prisma = new client_1.PrismaClient();
 function authenticate(user) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(user);
-        return user ? user : null;
+        return user ? (yield getUserByUsername(user)).id : { status: 401 };
     });
 }
 function authorize(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         let token;
         try {
-            token = yield req.headers['authorization'];
+            token = yield req.headers.authorization;
         }
         catch (e) {
             console.log(e);
@@ -35,15 +35,29 @@ function authorize(req, res, next) {
         }
         if (!token)
             return res.sendStatus(401);
-        if (!(yield getUser(token)))
+        if (!(yield getUserById(token)))
             return res.sendStatus(401);
         return next();
     });
 }
-function getUser(id) {
+function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return prisma.users.findUnique({ where: { id: parseInt(id) } });
+            return yield prisma.users.findUnique({
+                where: { id: parseInt(id) },
+            });
+        }
+        catch (e) {
+            return undefined;
+        }
+    });
+}
+function getUserByUsername(user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            return yield prisma.users.findUnique({
+                where: { username: user.username },
+            });
         }
         catch (e) {
             return undefined;
@@ -52,9 +66,17 @@ function getUser(id) {
 }
 function registerUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.users.create({
-            data: { password: user.password, username: user.username },
-        });
+        try {
+            return yield prisma.users.create({
+                data: {
+                    password: user.password,
+                    username: user.username,
+                },
+            });
+        }
+        catch (e) {
+            return { status: 500 };
+        }
     });
 }
 //# sourceMappingURL=AuthService.js.map
