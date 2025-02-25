@@ -14,11 +14,11 @@ import {
 } from './src/admin/services/AuthService';
 
 const app = express();
-const port = 3030;
+const port = 3000;
 app.use(express.json());
 app.use(
 	cors({
-		origin: 'http://localhost:3000', // Replace with your frontend's URL
+		origin: 'https://frontend-chi-eight-29.vercel.app', // Replace with your frontend's URL
 		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 		allowedHeaders: ['Content-Type', 'Authorization'],
 		credentials: true,
