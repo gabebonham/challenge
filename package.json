@@ -6,8 +6,8 @@
 		"build": "rm -rf api && npx tsc --build",
 		"start": "node api/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"postinstall": "prisma generate",
-		"vercel-build": "rm -rf api && prisma generate && prisma migrate deploy && npx tsc --build"
+		"postinstall": "npx prisma generate",
+		"vercel-build": "rm -rf api && npx prisma generate && npx prisma migrate deploy && npx tsc --build"
 	},
 	"keywords": [],
 	"author": "",
